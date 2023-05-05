@@ -1,6 +1,6 @@
 class RootController < ApplicationController
-  # skip_before_action :authenticate_request
+  skip_before_action :authenticate_request
   def index
-    render json: { messge: 'Server running!!!' }, status: :ok
+    render json: { message: 'Server running!!!' }, status: :ok
   end
 end
