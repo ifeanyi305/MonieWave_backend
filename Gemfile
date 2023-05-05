@@ -58,3 +58,6 @@ gem "active_model_serializers", "~> 0.10.13"
 
 #bcrypt
 gem "bcrypt", "~> 3.1.7"
+
+# JSON API Serializer
+gem 'jsonapi-serializer' 
