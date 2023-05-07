@@ -52,12 +52,15 @@ gem 'rubocop', '>= 1.0', '< 2.0'
 # CORS
 gem 'rack-cors'
 
-gem "jwt", "~> 2.7"
+gem 'jwt', '~> 2.7'
 
-gem "active_model_serializers", "~> 0.10.13"
+gem 'active_model_serializers', '~> 0.10.13'
 
-#bcrypt
-gem "bcrypt", "~> 3.1.7"
+# bcrypt
+gem 'bcrypt', '~> 3.1.7'
 
 # JSON API Serializer
-gem 'jsonapi-serializer' 
+gem 'jsonapi-serializer'
+
+# env
+gem 'dotenv-rails', '~> 2.1', '>= 2.1.1'

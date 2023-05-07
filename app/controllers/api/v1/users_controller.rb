@@ -1,5 +1,4 @@
 class Api::V1::UsersController < ApplicationController
-
   def create
     @user = User.new(user_params)
 
@@ -9,7 +8,7 @@ class Api::V1::UsersController < ApplicationController
       render json: { error: 'Failed to create user', message: @user.errors }, status: :not_acceptable
     end
   end
-  
+
   private
 
   def user_params
