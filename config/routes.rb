@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   post 'auth/login', to: 'authentication#login' , as: 'login'
   namespace :api do
     namespace :v1 do
-      resources :users, only: [:create]
+      resources :users, only: [:create, :index]
     end
   end
 end

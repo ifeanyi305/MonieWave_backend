@@ -1,9 +1,18 @@
 class Api::V1::UsersController < ApplicationController
+  skip_before_action :authenticate_request, only: %i[create index]
+  # before_action :set_user, only: %i[show destroy]
+
+  def index
+    @users = User.all
+    render json: { users: @users }, status: :ok
+  end
+
   def create
     @user = User.new(user_params)
 
     if @user.save
       render json: UserSerializer.new(@user).serializable_hash.to_json, status: :created
+      # send a welcome email here
     else
       render json: { error: 'Failed to create user', message: @user.errors }, status: :not_acceptable
     end
