@@ -19,4 +19,13 @@ class UserMailer < ApplicationMailer
       subject: 'Reset your password'
     )
   end
+
+  def password_reset_success_email
+    @user = params[:user]
+    @url = 'https://ratehive.com/login'
+    mail(
+      to: email_address_with_name(@user.email, @user.first_name),
+      subject: 'Password reset successful'
+    )
+  end
 end

@@ -22,18 +22,16 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def forgot_password
-    if params[:email].blank?
-      return render json: {error: 'Email not present' }
-    end
+    return render json: { error: 'Email not present' } if params[:email].blank?
 
     @user = User.find_by(email: params[:email])
 
     if @user.present?
       @user.generate_password_token!
-      render json: {staus: "ok", message: "Password reset link sent"}, status: :ok
+      render json: { staus: 'ok', message: 'Password reset link sent' }, status: :ok
       UserMailer.with(user: @user).forgot_password_email.deliver_now
     else
-      render json: {error: "Email address not found. Please check and try again."}, status: :not_found
+      render json: { error: 'Email address not found. Please check and try again.' }, status: :not_found
     end
   end
 
@@ -43,26 +41,25 @@ class Api::V1::UsersController < ApplicationController
     if @user.present? && @user.password_token_valid?
 
       if @user.reset_password!(params[:password])
-        render json: {status: "ok", message: "Password changed successfully"}, status: :ok
+        render json: { status: 'ok', message: 'Password changed successfully' }, status: :ok
         UserMailer.with(user: @user).password_reset_success_email.deliver_now
       else
-        render json: {error: @user.errors.full_messages}, status: :unprocessable_entity
+        render json: { error: @user.errors.full_messages }, status: :unprocessable_entity
       end
     else
-      render json: {error:  "Link not valid or expired. Try generating a new link."}, status: :not_found
+      render json: { error: 'Link not valid or expired. Try generating a new link.' }, status: :not_found
     end
-
   end
 
   private
 
   def verify_reset_password_params
-    return render json: {error: "Token not present"} if params[:token].blank?
-    return render json: {error: "Email not present"} if params[:email].blank?
+    return render json: { error: 'Token not present' } if params[:token].blank?
+    return render json: { error: 'Email not present' } if params[:email].blank?
 
-    if params[:password].to_s.length < 8
-      return render json: {error: "Password too short, Must be longer than 8 characters"}
-    end
+    return unless params[:password].to_s.length < 8
+
+    render json: { error: 'Password too short, Must be longer than 8 characters' }
   end
 
   def user_params
