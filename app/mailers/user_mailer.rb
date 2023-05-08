@@ -4,7 +4,7 @@ class UserMailer < ApplicationMailer
 
   def welcome_email
     @user = params[:user]
-    @url  = 'https://ratehive.com/login'
+    @url = 'https://ratehive.com/login'
     mail(
       to: email_address_with_name(@user.email, @user.first_name),
       subject: 'Welcome to RATEHIVE'
@@ -13,7 +13,7 @@ class UserMailer < ApplicationMailer
 
   def forgot_password_email
     @user = params[:user]
-    @url = "https://ratehive.com/reset_password?token=#{@user.reset_password_token}"
+    @url = "https://ratehive.com/reset_password?token=#{@user.reset_password_token}&email=#{@user.email}"
     mail(
       to: email_address_with_name(@user.email, @user.first_name),
       subject: 'Reset your password'

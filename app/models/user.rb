@@ -16,11 +16,23 @@ class User < ApplicationRecord
     save!
   end
 
-  def generate_token
-    SecureRandom.hex(10)
+  def password_token_valid?
+    (reset_password_sent_at + 1.hours) > Time.now.utc
+  end
+
+  def reset_password!(password)
+    self.reset_password_token = nil
+    self.password = password
+    save!
   end
 
   def admin?
     role == 'admin'
+  end
+
+  private
+
+  def generate_token
+    SecureRandom.hex(10)
   end
 end

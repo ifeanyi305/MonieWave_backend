@@ -65,8 +65,8 @@ gem 'jsonapi-serializer'
 # env
 gem 'dotenv-rails', '~> 2.1', '>= 2.1.1'
 
-#mail gem
+# mail gem
 gem 'mail'
 
-#Mail trap gem
+# Mail trap gem
 gem 'mailtrap'

@@ -6,7 +6,7 @@ class AuthenticationController < ApplicationController
     if @user&.authenticate(params[:password])
       render json: UserSerializer.new(@user).serializable_hash.to_json, status: :ok
     else
-      render json: { errors: 'unauthorized', message: @user.errors }, status: :unauthorized
+      render json: { errors: 'unauthorized' }, status: :unauthorized
     end
   end
 end
