@@ -14,5 +14,9 @@ class UserMailer < ApplicationMailer
   def forgot_password_email
     @user = params[:user]
     @url = "https://ratehive.com/reset_password?token=#{@user.reset_password_token}"
+    mail(
+      to: email_address_with_name(@user.email, @user.first_name),
+      subject: 'Reset your password'
+    )
   end
 end

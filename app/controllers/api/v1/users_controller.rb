@@ -33,6 +33,7 @@ class Api::V1::UsersController < ApplicationController
       puts user.reset_password_token
       puts user.reset_password_sent_at
       #send email here
+      UserMailer.with(user: user).forgot_password_email.deliver_now
       render json: {staus: "ok", message: "Password reset link sent"}, status: :ok
     else
       render json: {error: "Email address not found. Please check and try again."}, status: :not_found
