@@ -20,6 +20,29 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  def forgot_password
+    if params[:email].blank?
+      return render json: {error: 'Email not present' }
+    end
+
+    user = User.find_by(email: params[:email])
+
+    if user.present?
+      user.generate_password_token!
+
+      puts user.reset_password_token
+      puts user.reset_password_sent_at
+      #send email here
+      render json: {staus: "ok", message: "Password reset link sent"}, status: :ok
+    else
+      render json: {error: "Email address not found. Please check and try again."}, status: :not_found
+    end
+  end
+
+  def reset_password
+
+  end
+
   private
 
   def user_params
