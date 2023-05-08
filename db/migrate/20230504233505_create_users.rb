@@ -9,7 +9,7 @@ class CreateUsers < ActiveRecord::Migration[7.0]
       t.string :role
       t.string :password_digest
       t.string :reset_password_token, null: true
-      t.timestamps :reset_password_sent_at, null: true
+      t.timestamp :reset_password_sent_at, null: true
 
       t.timestamps
     end

@@ -23,6 +23,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_04_233505) do
     t.string "role"
     t.string "password_digest"
     t.string "reset_password_token"
+    t.datetime "reset_password_sent_at", precision: nil
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

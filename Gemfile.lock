@@ -109,6 +109,7 @@ GEM
       net-imap
       net-pop
       net-smtp
+    mailtrap (1.2.1)
     marcel (1.0.2)
     method_source (1.0.0)
     mini_mime (1.1.2)
@@ -204,6 +205,8 @@ DEPENDENCIES
   dotenv-rails (~> 2.1, >= 2.1.1)
   jsonapi-serializer
   jwt (~> 2.7)
+  mail
+  mailtrap
   pg (~> 1.1)
   puma (~> 5.0)
   rack-cors
