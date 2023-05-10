@@ -10,13 +10,14 @@ class Api::V1::EmailOtpController < ApplicationController
       @email.otp = generate_otp
       @email.save!
       #send email here
-
+      UserMailer.with(email: @email.email, otp: @email.otp).user_email_verification_email.deliver_now
       return render json: {status: 'ok', message: "OTP re-sent successfully"}, status: :ok
     else
       @email_otp = EmailOtp.new(email_otp_param)
       @email_otp.otp = generate_otp
       if @email_otp.save
         #send email here
+        UserMailer.with(email: @email_otp.email, otp: @email_otp.otp).user_email_verification_email.deliver_now
         return render json: {status: 'ok', message: "OTP sent successfully"}, status: :ok
       else
         return render json: { error: 'otp not sent', message: @email_otp.errors }, status: :not_acceptable

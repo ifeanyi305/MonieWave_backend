@@ -28,4 +28,13 @@ class UserMailer < ApplicationMailer
       subject: 'Password reset successful'
     )
   end
+
+  def user_email_verification_email
+    @email = params[:email]
+    @otp = params[:otp]
+    mail(
+      to: @email,
+      subject: 'Account verification OTP'
+    )
+  end
 end
