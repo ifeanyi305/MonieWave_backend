@@ -11,6 +11,7 @@ class Api::V1::UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
+    @user.role = 'customer'
 
     if @user.save
       render json: UserSerializer.new(@user).serializable_hash.to_json, status: :created

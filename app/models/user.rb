@@ -2,11 +2,13 @@ class User < ApplicationRecord
   require 'securerandom'
   has_secure_password
 
+  ROLES = %w[admin customer support].freeze
+
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :country, presence: true
   validates :verified, inclusion: { in: [true, false] }
-  validates :role, presence: true
+  validates :role, presence: true, inclusion: { in: ROLES }
   validates :email, uniqueness: true
   validates :password, presence: true, length: { minimum: 8 }, allow_nil: true
 
