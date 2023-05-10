@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       # OTP email routes
       post 'otp/get_otp', to: 'email_otp#get_otp'
+      post 'otp/verify_otp', to: 'email_otp#verify_otp'
       resources :users, only: [:create, :index]
       # Password reset routs
         post 'password/forgot', to: 'users#forgot_password'
