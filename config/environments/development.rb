@@ -34,7 +34,32 @@ Rails.application.configure do
   config.active_storage.service = :local
 
   # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = true
+
+  # config.action_mailer.delivery_method = :mailtrap
+  # config.action_mailer.mailtrap_settings = {
+  #   api_key: "c147080db07cda1c589b00cd70af19af"
+  # }
+
+  # config.action_mailer.delivery_method = :smtp
+  # config.action_mailer.smtp_settings = {
+  #   :address => "smtp.gmail.com",
+  #   :port => 587,
+  #   :user_name => "valentine6586@gmail.com",
+  #   :password => "dfkzugeufeswtzfg",
+  #   :authentication => :plain,
+  #   :enable_starttls_auto => true
+  # }
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :user_name => '1ac03871f092a4',
+    :password => '9c16018d962a6c',
+    :address => 'sandbox.smtp.mailtrap.io',
+    :domain => 'sandbox.smtp.mailtrap.io',
+    :port => '2525',
+    :authentication => :cram_md5
+  }
 
   config.action_mailer.perform_caching = false
 
