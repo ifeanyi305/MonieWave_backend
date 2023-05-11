@@ -1,10 +1,13 @@
 class Api::V1::EmailOtpController < ApplicationController
-  skip_before_action :authenticate_request, only: %i[get_otp verify_otp]
+  skip_before_action :authenticate_request, only: %i[create_otp verify_otp]
   require 'securerandom'
 
   # Endpoint to get email verification OTP
   def create_otp
     return render json: { message: 'No email provided' }, status: :not_acceptable if params[:user][:email].nil?
+
+    @user = User.find_by(email: params[:user][:email])
+    return render json: { message: 'There is an account with this email' }, status: :not_acceptable if @user.present?
 
     @email = EmailOtp.find_by(email: params[:user][:email])
 

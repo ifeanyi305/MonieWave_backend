@@ -25,7 +25,7 @@ class Api::V1::UsersController < ApplicationController
 
   # Endpoint to get password reset link
   def forgot_password
-    return render json: { error: 'Email not present' } if params[:email].blank?
+    return render json: { error: 'Email not present' }, status: :not_found if params[:email].blank?
 
     @user = User.find_by(email: params[:email])
 
