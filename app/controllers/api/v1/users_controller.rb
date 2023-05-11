@@ -9,6 +9,7 @@ class Api::V1::UsersController < ApplicationController
     render json: { users: @users }, status: :ok
   end
 
+  # Endpoint to create new user account
   def create
     @user = User.new(user_params)
     @user.role = 'customer'
@@ -22,6 +23,7 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  # Endpoint to get password reset link
   def forgot_password
     return render json: { error: 'Email not present' } if params[:email].blank?
 
@@ -36,12 +38,13 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  # Endpoint to change users password
   def reset_password
-    @user = User.find_by(reset_password_token: params[:token].to_s)
+    @user = User.find_by(reset_password_token: params[:data][:token].to_s)
 
     if @user.present? && @user.password_token_valid?
 
-      if @user.reset_password!(params[:password])
+      if @user.reset_password!(params[:data][:password])
         render json: { status: 'ok', message: 'Password changed successfully' }, status: :ok
         UserMailer.with(user: @user).password_reset_success_email.deliver_now
       else
@@ -55,12 +58,13 @@ class Api::V1::UsersController < ApplicationController
   private
 
   def verify_reset_password_params
-    return render json: { error: 'Token not present' } if params[:token].blank?
-    return render json: { error: 'Email not present' } if params[:email].blank?
+    return render json: { error: 'Token not present' }, status: :not_found if params[:data][:token].blank?
+    return render json: { error: 'Email not present' }, status: :not_found if params[:data][:email].blank?
 
-    return unless params[:password].to_s.length < 8
+    return unless params[:data][:password].to_s.length < 8
 
-    render json: { error: 'Password too short, Must be longer than 8 characters' }
+    render json: { error: 'Password too short, Must be longer than 8 characters' },
+           status: :not_acceptable
   end
 
   def user_params
