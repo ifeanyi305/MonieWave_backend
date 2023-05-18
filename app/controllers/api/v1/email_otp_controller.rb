@@ -33,12 +33,13 @@ class Api::V1::EmailOtpController < ApplicationController
   def verify_otp
     return render json: { message: 'No email provided' }, status: :not_found if params[:user][:email].nil?
     return render json: { message: 'No OTP provided' }, status: :not_found if params[:user][:otp].nil?
-    
+
     @user_otp = EmailOtp.find_by(email: params[:user][:email])
 
-    # return render json: {message: 'OTP expired' }, status: :not_acceptable if (@user_otp.updated_at + 5.minutes) > Time.now.utc
-    # return render(json: { message: 'OTP expired' }, status: :not_acceptable) if (@user_otp.updated_at + 2.minutes) > Time.now.utc
-
+    # return render json: {message: 'OTP expired' },
+    # status: :not_acceptable if (@user_otp.updated_at + 5.minutes) > Time.now.utc
+    # return render(json: { message: 'OTP expired' },
+    # status: :not_acceptable) if (@user_otp.updated_at + 2.minutes) > Time.now.utc
 
     unless @user_otp.present? && @user_otp.otp == params[:user][:otp]
       return render json: { error: 'OTP Verification failed' }, status: :not_acceptable
