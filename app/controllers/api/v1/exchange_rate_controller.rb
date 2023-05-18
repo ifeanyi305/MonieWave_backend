@@ -7,19 +7,19 @@ class Api::V1::ExchangeRateController < ApplicationController
   def create
     @exchange_rate = ExchangeRate.new(rate_params)
     @exchange_rate.time = DateTime.now
-    @exchange_rate.day = Time.now.day
-    @exchange_rate.month = Time.now.month
+    @exchange_rate.day = Time.now.strftime("%A")
+    @exchange_rate.month = Time.now.strftime("%B")
 
     if @exchange_rate.save
       return render json: { message: "New exchange rate added successfully" }, status: :created
     else
-      return render json: { message: "Exchange rate update failed" }, status: :unprocessable_entity
+      return render json: { message: "Exchange rate update failed", error: @exchange_rate.errors }, status: :unprocessable_entity
     end
   end
 
   # Endpoint to get latest exchange rate for a given currency
   def get_last_currency_rate
-    @currency_rate = ExchangeRate.where(currency: params[:currency]).order(created_at: :desc).first
+    @currency_rate = ExchangeRate.where(currency: params[:data][:currency]).order(created_at: :desc).first
 
     if @currency_rate
       render json: {message: "Latest #{params[:currency]} rate", data: @currency_rate }, status: :ok

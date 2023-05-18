@@ -4,8 +4,8 @@ class CreateExchangeRates < ActiveRecord::Migration[7.0]
       t.string :currency
       t.float :price
       t.datetime :time
-      t.date :day
-      t.date :month
+      t.string :day
+      t.string :month
 
       t.timestamps
     end
