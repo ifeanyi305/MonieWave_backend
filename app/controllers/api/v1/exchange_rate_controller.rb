@@ -37,6 +37,16 @@ class Api::V1::ExchangeRateController < ApplicationController
     end
   end
 
+  def get_all_rates_data
+    euro_rates = ExchangeRate.where(currency: 'euro')
+    pounds_rates = ExchangeRate.where(currency: 'pounds')
+    if euro_rates.any? && pounds_rates.any?
+      render json: {message: 'All rates history data', data: {Euro: euro_rates, Pounds: pounds_rates } }, status: :ok
+    else
+      return render json: { message: "No exchange rate found." }, status: :not_found
+    end
+  end
+
   
   def rate_params
     params.require(:data).permit(:currency, :price)
