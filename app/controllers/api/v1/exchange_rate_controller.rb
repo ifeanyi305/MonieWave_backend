@@ -1,7 +1,17 @@
 class Api::V1::ExchangeRateController < ApplicationController
   require 'date'
-  skip_before_action :authenticate_request, only: %i[]
+  skip_before_action :authenticate_request, only: %i[eur_rate]
   before_action :check_admin, only: %i[create]
+
+  def get_last_euro_rate
+    @euro_rate = ExchangeRate.where(currency: 'euro').order(created_at: :desc).first
+
+    if @euro_rate
+      render json: {message: 'Latest rate', data: @eur_rate }, status: :ok
+    else
+      return render json: { message: "No exchange rate found for euro." }, status: :not_found
+    end
+  end
 
   def create
     @exchange_rate = ExchangeRate.new(rate_params)
