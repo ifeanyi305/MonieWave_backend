@@ -1,12 +1,13 @@
 class Api::V1::FeeRangeController < ApplicationController
-  before_action :check_admin, only: %i[create update delete]
-  before_action :check_params, only: %i[create update delete]
+  before_action :check_admin, only: %i[create update destroy]
+  before_action :check_params, only: %i[create update destroy]
 
-def index
-  @transaction_fees = FeeRange.all
+  # Endpoint to get the fees for all price range
+  def index
+    @transaction_fees = FeeRange.all
 
-  render json: {data: @transaction_fees}, status: :ok
-end
+    render json: {data: @transaction_fees}, status: :ok
+  end
 
 
   # Endpoint to create a new transaction fee for a given price range
@@ -43,7 +44,7 @@ end
   end
 
   # Endpoint to delete transaction fee for a given price range
-  def delete
+  def destroy
     start_price = params[:data][:start_price]
     end_price = params[:data][:end_price]
     @fee_range = FeeRange.find_by('start_price <= ? AND end_price >= ?', start_price, end_price)
