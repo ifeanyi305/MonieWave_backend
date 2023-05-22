@@ -1,6 +1,13 @@
 class Api::V1::FeeRangeController < ApplicationController
-  before_action :check_admin, only: %i[create update]
-  before_action :check_params, only: %i[create update]
+  before_action :check_admin, only: %i[create update delete]
+  before_action :check_params, only: %i[create update delete]
+
+def index
+  @transaction_fees = FeeRange.all
+
+  render json: {data: @transaction_fees}, status: :ok
+end
+
 
   # Endpoint to create a new transaction fee for a given price range
   def create
@@ -28,6 +35,23 @@ class Api::V1::FeeRangeController < ApplicationController
       @fee_range.save!
       render json: {
                message: "Transaction Fee for #{start_price} to #{end_price} Updated successfully"
+             },
+             stauts: :ok
+    else
+      render json: { message: 'No transaction fee for that price range' }, status: :not_found
+    end
+  end
+
+  # Endpoint to delete transaction fee for a given price range
+  def delete
+    start_price = params[:data][:start_price]
+    end_price = params[:data][:end_price]
+    @fee_range = FeeRange.find_by('start_price <= ? AND end_price >= ?', start_price, end_price)
+
+    if @fee_range.present?
+      @fee_range.destroy!
+      render json: {
+               message: "Transaction Fee for #{start_price} to #{end_price} deleted successfully"
              },
              stauts: :ok
     else
