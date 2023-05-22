@@ -5,7 +5,9 @@ class CreateFeeRanges < ActiveRecord::Migration[7.0]
       t.integer :end_price
       t.float :fee
 
+      
       t.timestamps
     end
+    add_index :fee_ranges, [:start_price, :end_price], unique: true
   end
 end
