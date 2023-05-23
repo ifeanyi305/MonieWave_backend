@@ -2,6 +2,8 @@ class User < ApplicationRecord
   require 'securerandom'
   has_secure_password
 
+  has_many :beneficiaries
+
   ROLES = %w[admin customer support].freeze
 
   validates :first_name, presence: true
