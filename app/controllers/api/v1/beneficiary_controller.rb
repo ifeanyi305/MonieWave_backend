@@ -21,6 +21,16 @@ class Api::V1::BeneficiaryController < ApplicationController
     end
   end
 
+  def destroy
+    @beneficiary = Beneficiary.find(params[:id])
+
+    if @beneficiary.destroy! 
+      render json: { message: "Beneficiary deleted successfully" }, status: :ok
+    else
+      render json: { message: "Failed to delete beneficiary", error: @beneficiary.errors }, status: :not_found
+    end
+  end
+
   private
 
   def beneficiary_params
