@@ -18,6 +18,8 @@ Rails.application.routes.draw do
       resources :fee_range, only: [:create, :index]
       put 'fee_range', to: 'fee_range#update_fee'
       delete 'fee_range', to: 'fee_range#delete_fee'
+      # Beneficiary resources
+      resources :beneficiary, only: [:create, :index, :destroy]
 
       resources :users, only: [:create, :index]
       # Password reset routes

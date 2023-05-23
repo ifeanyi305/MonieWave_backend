@@ -1,4 +1,15 @@
 class Api::V1::BeneficiaryController < ApplicationController
+
+  def index
+    @beneficiaries = @current_user.beneficiaries
+
+    if @beneficiaries.present?
+      render json: { data: @beneficiaries }, status: :ok
+    else
+      render json: { message: "No beneficiary found" }, status: :not_found
+    end
+  end
+
   def create
     @beneficiary = Beneficiary.new(beneficiary_params)
     @beneficiary.user = @current_user
