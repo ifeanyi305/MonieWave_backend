@@ -15,7 +15,10 @@ Rails.application.routes.draw do
       get 'rate/currency_latest', to: 'exchange_rate#last_currency_rate'
       get 'rate/history', to: 'exchange_rate#all_rates_data'
       # Transaction fee resources
-      resources :fee_range, only: [:create, :index, :update, :destroy]
+      resources :fee_range, only: [:create, :index]
+      put 'fee_range', to: 'fee_range#update_fee'
+      delete 'fee_range', to: 'fee_range#delete_fee'
+
       resources :users, only: [:create, :index]
       # Password reset routes
         post 'password/forgot', to: 'users#forgot_password'
