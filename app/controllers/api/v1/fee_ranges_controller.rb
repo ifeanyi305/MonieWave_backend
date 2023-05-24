@@ -1,4 +1,4 @@
-class Api::V1::FeeRangeController < ApplicationController
+class Api::V1::FeeRangesController < ApplicationController
   before_action :check_admin, only: %i[create update_fee delete_fee]
   before_action :check_params, only: %i[create update_fee delete_fee]
 
