@@ -1,4 +1,4 @@
-class Api::V1::ExchangeRateController < ApplicationController
+class Api::V1::ExchangeRatesController < ApplicationController
   require 'date'
   skip_before_action :authenticate_request, only: %i[last_currency_rate all_last_rate all_rates_data]
   before_action :check_admin, only: %i[create]

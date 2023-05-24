@@ -10,9 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_22_113702) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_23_144709) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "beneficiaries", force: :cascade do |t|
+    t.string "bank_name"
+    t.string "account_number"
+    t.string "account_name"
+    t.string "phone_number"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_beneficiaries_on_user_id"
+  end
 
   create_table "email_otps", force: :cascade do |t|
     t.string "email"
@@ -53,4 +64,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_22_113702) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "beneficiaries", "users"
 end
