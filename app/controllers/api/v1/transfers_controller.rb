@@ -1,5 +1,15 @@
 class Api::V1::TransfersController < ApplicationController
 
+  def index
+    @transfers = @current_user.transfers
+
+    if @transfers.present?
+      render json: { data: @transfer }, status: :ok
+    else
+      render json: { message: "You have not completed any transfer yet " }, status: :not_found
+    end
+  end
+
   def create
     @transfer = Transfer.new(transfer_params)
     @transfer.user = @current_user
