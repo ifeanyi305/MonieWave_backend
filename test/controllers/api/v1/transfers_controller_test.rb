@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class TransferTest < ActiveSupport::TestCase
+class Api::V1::TransfersControllerTest < ActionDispatch::IntegrationTest
   # test "the truth" do
   #   assert true
   # end
