@@ -16,10 +16,12 @@ Rails.application.routes.draw do
       get 'rate/history', to: 'exchange_rates#all_rates_data'
       # Transaction fee resources
       resources :fee_ranges, only: [:create, :index]
-      put 'fee_range', to: 'fee_ranges#update_fee'
-      delete 'fee_range', to: 'fee_ranges#delete_fee'
+      put 'fee_ranges', to: 'fee_ranges#update_fee'
+      delete 'fee_ranges', to: 'fee_ranges#delete_fee'
       # Beneficiary resources
       resources :beneficiaries, only: [:create, :index, :destroy]
+      # Transfer Resources
+      resources :transfers, only: [:create, :index]
       resources :users, only: [:create, :index]
       # Password reset routes
         post 'password/forgot', to: 'users#forgot_password'

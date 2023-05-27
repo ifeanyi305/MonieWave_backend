@@ -3,6 +3,7 @@ class User < ApplicationRecord
   has_secure_password
 
   has_many :beneficiaries
+  has_many :transfers
 
   ROLES = %w[admin customer support].freeze
 
