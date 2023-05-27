@@ -2,8 +2,8 @@ class CreateTransfers < ActiveRecord::Migration[7.0]
   def change
     create_table :transfers do |t|
       t.string :currency
-      t.integer :amount
-      t.integer :naira_amount
+      t.string :amount
+      t.string :naira_amount
       t.integer :exchange_rate
       t.string :recipient_name
       t.integer :recipient_account
