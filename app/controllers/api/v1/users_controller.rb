@@ -1,13 +1,11 @@
 class Api::V1::UsersController < ApplicationController
   skip_before_action :authenticate_request, only: %i[create forgot_password reset_password]
-  before_action :check_admin, only: %i[index, show]
+  before_action :check_admin, only: %i[index show]
   before_action :verify_reset_password_params, only: %i[reset_password]
   # before_action :set_user, only: %i[show destroy]
 
   def index
-    # @users = User.all
-    # @users = User.select(:id, :email, :first_name, :last_name, :last_login, :status ).as_json
-    @users = User.select(:id, :email, :first_name, :last_name ).as_json
+    @users = User.select(:id, :email, :first_name, :last_name, :last_login, :status).as_json
 
     render json: { users: @users }, status: :ok
   end
@@ -28,16 +26,18 @@ class Api::V1::UsersController < ApplicationController
 
   # Endpoint to get all the details of a given user
   def show
-    # @user = User.find(params[:id]).select(:id, :email, :first_name, :last_name, :last_login, :status, :verified, :role, :country ).as_json
-    @user = User.select(:id, :email, :first_name, :last_name ).find(params[:id])
+    @user = User.select(
+      :id, :email, :first_name, :last_name, :last_login,
+      :status, :verified, :role, :country
+    ).find(params[:id])
 
     if @user
       @tranfers = @user.transfers
       @beneficiaries = @user.beneficiaries
 
-      render json: {user: @user, transfers: @tranfers, beneficiaries: @beneficiaries}, status: :ok
+      render json: { user: @user, transfers: @tranfers, beneficiaries: @beneficiaries }, status: :ok
     else
-      render json: {error: @user.error, message: 'User not found'}, status: :not_found
+      render json: { error: @user.error, message: 'User not found' }, status: :not_found
     end
   end
 

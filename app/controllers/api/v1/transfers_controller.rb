@@ -24,38 +24,38 @@ class Api::V1::TransfersController < ApplicationController
   end
 
   def show
-    @tranfer = Transfer.find(params[:id])
+    @transfer = Transfer.find_by(id: params[:id])
 
-    if @tranfer.present?
-      render json: {tranfer: @tranfer }, status: :ok
+    if @transfer.present?
+      render json: { transfer: @transfer }, status: :ok
     else
-      render json: {error: @tranfer.errors, message: 'Transfer not found' }, status: :not_found
+      render json: { error: 'Transfer not found' }, status: :not_found
     end
-      
   end
 
   def show_all_transfers
-    @transfers = Transfer.select(:user, :id, :created_at, :amount, :currency, :status).as_json
+    @transfers = Transfer.select('transfers.id, transfers.created_at,
+      transfers.amount, transfers.currency, transfers.status, users.first_name, users.last_name')
+      .joins(:user)
 
-    if @tranfers
-      render json: {transfers: @tranfers }, status: :ok
-    if else @tranfers.empty?
-      render json: { message: 'NO transfer yet'}, status: :not_found
+    if @transfers.present?
+      render json: { transfers: @transfers.as_json }, status: :ok
+    elsif @transfers.empty?
+      render json: { message: 'NO transfer yet' }, status: :not_found
     else
-      render json: {error: @tranfers.error}, status: :unprocessable_entity
+      render json: { error: 'Error occurred while fetching transfers' }, status: :unprocessable_entity
     end
-
   end
 
   def update_transfer_status
     @transfer = Transfer.find(params[:data][:id])
-    
+
     @transfer.status = params[:data][:status]
     if @transfer.save!
-      #sender user email informing them of the update
-      render json: { message: "Transfer status update to #{params[:data][:status]} successfully"}, status: :ok
+      # sender user email informing them of the update
+      render json: { message: "Transfer status update to #{params[:data][:status]} successfully" }, status: :ok
     else
-      render json: { error: @transfer.error, message: 'Status not updated'}, status: :unprocessable_entity
+      render json: { error: @transfer.error, message: 'Status not updated' }, status: :unprocessable_entity
     end
   end
 

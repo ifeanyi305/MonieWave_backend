@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_23_144709) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_24_085635) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -48,6 +48,25 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_23_144709) do
     t.float "fee"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["start_price", "end_price"], name: "index_fee_ranges_on_start_price_and_end_price", unique: true
+  end
+
+  create_table "transfers", force: :cascade do |t|
+    t.string "currency"
+    t.string "amount"
+    t.string "naira_amount"
+    t.integer "exchange_rate"
+    t.string "recipient_name"
+    t.string "recipient_account"
+    t.string "recipient_bank"
+    t.string "recipient_phone"
+    t.string "reference_number"
+    t.string "payment_method"
+    t.string "status"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_transfers_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -57,6 +76,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_23_144709) do
     t.string "email"
     t.boolean "verified"
     t.string "role"
+    t.string "status"
+    t.string "last_login"
     t.string "password_digest"
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at", precision: nil
@@ -65,4 +86,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_23_144709) do
   end
 
   add_foreign_key "beneficiaries", "users"
+  add_foreign_key "transfers", "users"
 end
