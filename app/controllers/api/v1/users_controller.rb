@@ -5,7 +5,10 @@ class Api::V1::UsersController < ApplicationController
   # before_action :set_user, only: %i[show destroy]
 
   def index
-    @users = User.all
+    # @users = User.all
+    # @users = User.select(:id, :email, :first_name, :last_name, :last_login, :status ).as_json
+    @users = User.select(:id, :email, :first_name, :last_name ).as_json
+
     render json: { users: @users }, status: :ok
   end
 
@@ -25,9 +28,10 @@ class Api::V1::UsersController < ApplicationController
 
   # Endpoint to get all the details of a given user
   def show
-    @user = User.find(params[:data][:id])
+    # @user = User.find(params[:id]).select(:id, :email, :first_name, :last_name, :last_login, :status, :verified, :role, :country ).as_json
+    @user = User.select(:id, :email, :first_name, :last_name ).find(params[:id])
 
-    if @user.present?
+    if @user
       @tranfers = @user.transfers
       @beneficiaries = @user.beneficiaries
 

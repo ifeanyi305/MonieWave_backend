@@ -23,6 +23,17 @@ class Api::V1::TransfersController < ApplicationController
     end
   end
 
+  def show
+    @tranfer = Transfer.find(params[:id])
+
+    if @tranfer.present?
+      render json: {tranfer: @tranfer }, status: :ok
+    else
+      render json: {error: @tranfer.errors, message: 'Transfer not found' }, status: :not_found
+    end
+      
+  end
+
   def update_transfer_status
     @transfer = Transfer.find(params[:data][:id])
     
