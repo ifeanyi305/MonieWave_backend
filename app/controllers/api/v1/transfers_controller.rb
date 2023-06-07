@@ -1,4 +1,6 @@
 class Api::V1::TransfersController < ApplicationController
+  before_action :check_admin, only: %i[update_transfer_status]
+
   def index
     @transfers = @current_user.transfers
 
@@ -23,9 +25,9 @@ class Api::V1::TransfersController < ApplicationController
 
   def update_transfer_status
     @transfer = Transfer.find(params[:data][:id])
-
-    if @transfer.present?
-      @transfer.status = params[:data][:status]
+    
+    @transfer.status = params[:data][:status]
+    if @transfer.save!
       #sender user email informing them of the update
       render json: { message: "Transfer status update to #{params[:data][:status]} successfully"}, status: :ok
     else

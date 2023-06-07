@@ -1,6 +1,6 @@
 class Api::V1::UsersController < ApplicationController
   skip_before_action :authenticate_request, only: %i[create forgot_password reset_password]
-  before_action :check_admin, only: %i[index]
+  before_action :check_admin, only: %i[index, show]
   before_action :verify_reset_password_params, only: %i[reset_password]
   # before_action :set_user, only: %i[show destroy]
 
@@ -23,7 +23,7 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
-  # ENdpoint to get all the details of a given user
+  # Endpoint to get all the details of a given user
   def show
     @user = User.find(params[:data][:id])
 

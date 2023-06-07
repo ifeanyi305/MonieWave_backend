@@ -22,7 +22,8 @@ Rails.application.routes.draw do
       resources :beneficiaries, only: [:create, :index, :destroy]
       # Transfer Resources
       resources :transfers, only: [:create, :index]
-      resources :users, only: [:create, :index]
+      put 'update_transfer_status', to: 'tranfers#update_transfer_status'
+      resources :users, only: [:create, :index, :show]
       # Password reset routes
         post 'password/forgot', to: 'users#forgot_password'
         post 'password/reset', to: 'users#reset_password'
