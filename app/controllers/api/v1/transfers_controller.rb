@@ -1,5 +1,5 @@
 class Api::V1::TransfersController < ApplicationController
-  before_action :check_admin, only: %i[update_transfer_status]
+  before_action :check_admin, only: %i[update_transfer_status show show_all_transfers]
 
   def index
     @transfers = @current_user.transfers
@@ -32,6 +32,19 @@ class Api::V1::TransfersController < ApplicationController
       render json: {error: @tranfer.errors, message: 'Transfer not found' }, status: :not_found
     end
       
+  end
+
+  def show_all_transfers
+    @transfers = Transfer.select(:user, :id, :created_at, :amount, :currency, :status).as_json
+
+    if @tranfers
+      render json: {transfers: @tranfers }, status: :ok
+    if else @tranfers.empty?
+      render json: { message: 'NO transfer yet'}, status: :not_found
+    else
+      render json: {error: @tranfers.error}, status: :unprocessable_entity
+    end
+
   end
 
   def update_transfer_status
