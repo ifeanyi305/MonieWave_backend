@@ -21,11 +21,11 @@ Rails.application.routes.draw do
       # Beneficiary resources
       resources :beneficiaries, only: [:create, :index, :destroy]
       # Transfer Resources
-      # get 'transfers/show_all_tranfers', to: 'transfers#show_all_transfers'
+      # get 'transfers/show_all_transfers', to: 'transfers#show_all_transfers'
       resources :transfers, only: [:create, :index, :show] do
         collection do
           get 'show_all_transfers', to: 'transfers#show_all_transfers'
-          put 'update_transfer_status', to: 'tranfers#update_transfer_status'
+          put 'update_transfer_status', to: 'transfers#update_transfer_status'
         end
       end
       #Users Resources
