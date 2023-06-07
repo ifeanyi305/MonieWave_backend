@@ -3,7 +3,7 @@ class Api::V1::TransfersController < ApplicationController
     @transfers = @current_user.transfers
 
     if @transfers.present?
-      render json: { data: @transfer }, status: :ok
+      render json: { data: @transfers }, status: :ok
     else
       render json: { message: 'You have not completed any transfer yet ' }, status: :not_found
     end

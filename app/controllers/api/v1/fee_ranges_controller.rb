@@ -1,4 +1,5 @@
 class Api::V1::FeeRangesController < ApplicationController
+  skip_before_action :authenticate_request, only: %i[index]
   before_action :check_admin, only: %i[create update_fee delete_fee]
   before_action :check_params, only: %i[create update_fee delete_fee]
 
