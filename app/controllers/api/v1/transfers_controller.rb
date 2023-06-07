@@ -21,6 +21,18 @@ class Api::V1::TransfersController < ApplicationController
     end
   end
 
+  def update_transfer_status
+    @transfer = Transfer.find(params[:data][:id])
+
+    if @transfer.present?
+      @transfer.status = params[:data][:status]
+      #sender user email informing them of the update
+      render json: { message: "Transfer status update to #{params[:data][:status]} successfully"}, status: :ok
+    else
+      render json: { error: @transfer.error, message: 'Status not updated'}, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def transfer_params
