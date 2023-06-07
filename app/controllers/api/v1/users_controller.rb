@@ -23,6 +23,20 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  # ENdpoint to get all the details of a given user
+  def show
+    @user = User.find(params[:data][:id])
+
+    if @user.present?
+      @tranfers = @user.transfers
+      @beneficiaries = @user.beneficiaries
+
+      render json: {user: @user, transfers: @tranfers, beneficiaries: @beneficiaries}, status: :ok
+    else
+      render json: {error: @user.error, message: 'User not found'}, status: :not_found
+    end
+  end
+
   # Endpoint to get password reset link
   def forgot_password
     return render json: { error: 'Email not present' }, status: :not_found if params[:email].blank?
