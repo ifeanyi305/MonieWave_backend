@@ -26,16 +26,16 @@ class Api::V1::UsersController < ApplicationController
 
   # Endpoint to get all the details of a given user
   def show
-    @user = User.select(
+    @user = User.includes(:transfers, :beneficiaries).select(
       :id, :email, :first_name, :last_name, :last_login,
       :status, :verified, :role, :country
     ).find(params[:id])
-
+    
     if @user
-      @tranfers = @user.transfers
+      @transfers = @user.transfers
       @beneficiaries = @user.beneficiaries
 
-      render json: { user: @user, transfers: @tranfers, beneficiaries: @beneficiaries }, status: :ok
+      render json: { user: @user, transfers: @transfers, beneficiaries: @beneficiaries }, status: :ok
     else
       render json: { error: @user.error, message: 'User not found' }, status: :not_found
     end
