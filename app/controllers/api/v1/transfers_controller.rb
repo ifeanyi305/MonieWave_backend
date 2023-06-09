@@ -30,10 +30,12 @@ class Api::V1::TransfersController < ApplicationController
 
   # Admin enpoint to get the details of a given transfer
   def show
-    @transfer = Transfer.find_by(id: params[:id])
+    @transfer = Transfer.includes(:user).find_by(id: params[:id])
 
     if @transfer.present?
-      render json: { transfer: @transfer }, status: :ok
+      transfer_data = @transfer.attributes
+      transfer_data['first_name'] = @transfer.user.first_name
+      render json: { transfer: transfer_data }, status: :ok
     else
       render json: { error: 'Transfer not found' }, status: :not_found
     end
