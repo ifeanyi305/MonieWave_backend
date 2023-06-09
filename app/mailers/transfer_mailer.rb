@@ -12,4 +12,13 @@ class TransferMailer < ApplicationMailer
         subject: 'Transfer successful'
       )
     end
+
+    def tranfer_proccessing_email
+      @user = params[:user]
+      @recipient = params[:recipient]
+      mail(
+        to: email_address_with_name(@user.email, @user.first_name),
+        subject: 'Transfer recieved, Proccessing payments to recipient'
+      )
+    end
 end
