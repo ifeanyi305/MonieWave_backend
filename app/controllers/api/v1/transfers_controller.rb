@@ -18,6 +18,7 @@ class Api::V1::TransfersController < ApplicationController
 
     if @transfer.save
       render json: { message: 'Transfer success, Pending confirmation' }, status: :created
+      TransferMailer.with(user: @transfer.user, amount: @transfer.amount, recipient: @transfer.recipient_name, currency: @transfer.currency).success_email.deliver_now
     else
       render json: { message: 'Could not complete transfer', error: @transfer.errors }, status: :unprocessable_entity
     end

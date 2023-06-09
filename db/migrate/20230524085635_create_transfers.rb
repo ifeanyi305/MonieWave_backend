@@ -6,7 +6,7 @@ class CreateTransfers < ActiveRecord::Migration[7.0]
       t.string :naira_amount
       t.integer :exchange_rate
       t.string :recipient_name
-      t.string :recipient_account
+      t.text :recipient_account
       t.string :recipient_bank
       t.string :recipient_phone
       t.string :reference_number

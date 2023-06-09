@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Hey there <%= @user.first_name%></h1>
+    <p>
+      Your RATEHIVE transfer is all set, and your money is on its way to <%= @recipient%>. <br>
+
+      Your transfer of <%= @amount %> <%=@currency %> to <%= @recipient%> have been recieved and is currently pending.
+      <br>
+      <br>
+
+      The transfer will be processed and verified in the next few minuites, you will get progress updates on your dashboard and email.
+      <br>
+      <br>
+      Cheers,
+      RATEHIVE Team.
+    </p>
+  </body>
+</html>

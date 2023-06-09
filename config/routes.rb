@@ -21,7 +21,6 @@ Rails.application.routes.draw do
       # Beneficiary resources
       resources :beneficiaries, only: [:create, :index, :destroy]
       # Transfer Resources
-      # get 'transfers/show_all_transfers', to: 'transfers#show_all_transfers'
       resources :transfers, only: [:create, :index, :show] do
         collection do
           get 'show_all_transfers', to: 'transfers#show_all_transfers'
