@@ -85,6 +85,7 @@ class Api::V1::TransfersController < ApplicationController
       TransferMailer.with(user: transfer.user, recipient: transfer.recipient_name).tranfer_proccessing_email.deliver_now
     when "Completed"
       #send completed email
+      TransferMailer.with(user: transfer.user, recipient: transfer.recipient_name, naira_amount: transfer.naira_amount).tranfer_completed_email.deliver_now
     when "Rejected"
       # send Rejected email
     else

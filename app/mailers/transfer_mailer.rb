@@ -21,4 +21,14 @@ class TransferMailer < ApplicationMailer
         subject: 'Transfer recieved, Proccessing payments to recipient'
       )
     end
+
+    def tranfer_completed_email
+      @user = params[:user]
+      @recipient = params[:recipient]
+      @naira_amount = params[:naira_amount]
+      mail(
+        to: email_address_with_name(@user.email, @user.first_name),
+        subject: 'Payment Completed'
+      )
+    end
 end
