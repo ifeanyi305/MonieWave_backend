@@ -13,7 +13,9 @@ class Api::V1::UsersController < ApplicationController
   # Endpoint to create new user account
   def create
     @user = User.new(user_params)
-    @user.role = 'customer'
+    @user.role = 'customer' if @user.role.empty?
+    @user.status = 'Active'
+    @user.last_login = DateTime.now
 
     if @user.save
       render json: UserSerializer.new(@user).serializable_hash.to_json, status: :created
@@ -70,6 +72,21 @@ class Api::V1::UsersController < ApplicationController
       end
     else
       render json: { error: 'Link not valid or expired. Try generating a new link.' }, status: :not_found
+    end
+  end
+
+  # Endpoint to update user's status
+  def update_user_status
+    @user = User.find_by(email: params[:user][:id])
+
+    return render json: { error: "User not found" }, status: :not_found if @user.nil?
+
+    @user.status = params[:user][:status]
+
+    if @user.save
+      render json: {message: "User status updated to #{params[:user][:status]}"}, status: :ok
+    else
+      render json: { error: @user.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
