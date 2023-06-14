@@ -6,7 +6,7 @@ class User < ApplicationRecord
   has_many :transfers
 
   ROLES = %w[admin customer support].freeze
-  STATUS = %w[Active Blocked].freeze
+  STATUS = %w[Active Disabled].freeze
 
   validates :first_name, presence: true
   validates :last_name, presence: true

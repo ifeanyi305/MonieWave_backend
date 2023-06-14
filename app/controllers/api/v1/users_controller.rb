@@ -1,6 +1,6 @@
 class Api::V1::UsersController < ApplicationController
   skip_before_action :authenticate_request, only: %i[create forgot_password reset_password]
-  before_action :check_admin, only: %i[index show]
+  before_action :check_admin, only: %i[index show update_user_status]
   before_action :verify_reset_password_params, only: %i[reset_password]
   # before_action :set_user, only: %i[show destroy]
 
@@ -77,7 +77,7 @@ class Api::V1::UsersController < ApplicationController
 
   # Endpoint to update user's status
   def update_user_status
-    @user = User.find_by(email: params[:user][:id])
+    @user = User.find_by(id: params[:user][:id])
 
     return render json: { error: "User not found" }, status: :not_found if @user.nil?
 

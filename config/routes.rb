@@ -28,7 +28,11 @@ Rails.application.routes.draw do
         end
       end
       #Users Resources
-      resources :users, only: [:create, :index, :show]
+      resources :users, only: [:create, :index, :show] do
+        collection do
+          put 'update_user_status', to: 'users#update_user_status'
+        end
+      end
       # Password reset routes
         post 'password/forgot', to: 'users#forgot_password'
         post 'password/reset', to: 'users#reset_password'
