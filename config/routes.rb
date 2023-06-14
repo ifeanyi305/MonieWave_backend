@@ -30,6 +30,7 @@ Rails.application.routes.draw do
       #Users Resources
       resources :users, only: [:create, :index, :show, :destroy] do
         collection do
+          post 'create_super_user', to: 'users#create_super_user'
           put 'update_user_status', to: 'users#update_user_status'
           put 'update_user_role', to: 'users#update_user_role'
         end

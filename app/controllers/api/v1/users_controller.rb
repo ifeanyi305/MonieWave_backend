@@ -1,6 +1,6 @@
 class Api::V1::UsersController < ApplicationController
   skip_before_action :authenticate_request, only: %i[create forgot_password reset_password]
-  before_action :check_admin, only: %i[index show update_user_status update_user_role]
+  before_action :check_admin, only: %i[index show create_super_user update_user_status update_user_role]
   before_action :verify_reset_password_params, only: %i[reset_password]
   # before_action :set_user, only: %i[show destroy]
 
@@ -13,7 +13,7 @@ class Api::V1::UsersController < ApplicationController
   # Endpoint to create new user account
   def create
     @user = User.new(user_params)
-    @user.role = 'customer' if @user.role.empty?
+    @user.role = 'customer'
     @user.status = 'Active'
     @user.last_login = DateTime.now
 
@@ -23,6 +23,21 @@ class Api::V1::UsersController < ApplicationController
       UserMailer.with(user: @user).welcome_email.deliver_now
     else
       render json: { error: 'Failed to create user', message: @user.errors }, status: :not_acceptable
+    end
+  end
+
+  # Endpoint to create new super user account
+  def create_super_user
+    @user = User.new(user_params)
+    @user.status = 'Active'
+    @user.last_login = DateTime.now
+
+    if @user.save
+      render json: UserSerializer.new(@user).serializable_hash.to_json, status: :created
+      # send a welcome email here
+      UserMailer.with(user: @user).welcome_email.deliver_now
+    else
+      render json: { error: 'Failed to create user', message: @user.errors.full_messages }, status: :not_acceptable
     end
   end
 
