@@ -75,7 +75,7 @@ class Api::V1::TransfersController < ApplicationController
   def transfer_params
     params.require(:data).permit(:currency, :naira_amount, :amount, :exchange_rate, :recipient_name,
                                  :recipient_account, :recipient_bank, :recipient_phone,
-                                 :reference_number, :payment_method)
+                                 :reference_number, :payment_method, :fee)
   end
 
   def transfer_status(transfer)
