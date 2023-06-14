@@ -1,6 +1,6 @@
 class Api::V1::UsersController < ApplicationController
   skip_before_action :authenticate_request, only: %i[create forgot_password reset_password]
-  before_action :check_admin, only: %i[index show update_user_status]
+  before_action :check_admin, only: %i[index show update_user_status update_user_role]
   before_action :verify_reset_password_params, only: %i[reset_password]
   # before_action :set_user, only: %i[show destroy]
 
@@ -85,6 +85,21 @@ class Api::V1::UsersController < ApplicationController
 
     if @user.save
       render json: {message: "User status updated to #{params[:user][:status]}"}, status: :ok
+    else
+      render json: { error: @user.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
+  # Endpoint to update user's role
+  def update_user_role
+    @user = User.find_by(id: params[:user][:id])
+
+    return render json: { error: "User not found" }, status: :not_found if @user.nil?
+
+    @user.role = params[:user][:role]
+
+    if @user.save
+      render json: {message: "User role updated to #{params[:user][:role]}"}, status: :ok
     else
       render json: { error: @user.errors.full_messages }, status: :unprocessable_entity
     end
