@@ -13,6 +13,9 @@ class CreateTransfers < ActiveRecord::Migration[7.0]
       t.string :reference_number
       t.string :payment_method
       t.string :status
+      t.timestamp :proccessing_time, null: true
+      t.timestamp :completed_time, null: true
+      t.timestamp :rejected_time, null: true
 
       t.references :user, null: false, foreign_key: true
 

@@ -22,7 +22,8 @@ class Api::V1::TransfersController < ApplicationController
       render json: { message: 'Transfer success, Pending confirmation' }, status: :created
       TransferMailer.with(
         user: @transfer.user, amount: @transfer.amount,
-        recipient: @transfer.recipient_name, currency: @transfer.currency).success_email.deliver_now
+        recipient: @transfer.recipient_name, currency: @transfer.currency
+      ).success_email.deliver_now
     else
       render json: { message: 'Could not complete transfer', error: @transfer.errors }, status: :unprocessable_entity
     end
@@ -41,7 +42,7 @@ class Api::V1::TransfersController < ApplicationController
     end
   end
 
-  #Admin endpoint to see all users transfers
+  # Admin endpoint to see all users transfers
   def show_all_transfers
     @transfers = Transfer.select('transfers.id, transfers.created_at,
       transfers.amount, transfers.currency, transfers.status, users.first_name, users.last_name')
@@ -56,11 +57,13 @@ class Api::V1::TransfersController < ApplicationController
     end
   end
 
-  #Admin endpoint to update the status of a transfer
+  # Admin endpoint to update the status of a transfer
   def update_transfer_status
     @transfer = Transfer.find(params[:data][:id])
 
     @transfer.status = params[:data][:status]
+    status_time = "#{params[:data][:status]}_time"
+    @transfer[status_time.capitalize] = Time.now.utc
     if @transfer.save!
       render json: { message: "Transfer status updated to #{params[:data][:status]} successfully" }, status: :ok
       # sender user email informing them of the update
@@ -80,17 +83,15 @@ class Api::V1::TransfersController < ApplicationController
 
   def transfer_status(transfer)
     case transfer.status
-    when "Processing"
+    when 'Processing'
       # send proccessing email
       TransferMailer.with(user: transfer.user, recipient: transfer.recipient_name).tranfer_proccessing_email.deliver_now
-    when "Completed"
-      #send completed email
-      TransferMailer.with(user: transfer.user, recipient: transfer.recipient_name, naira_amount: transfer.naira_amount).tranfer_completed_email.deliver_now
-    when "Rejected"
+    when 'Completed'
+      # send completed email
+      TransferMailer.with(user: transfer.user, recipient: transfer.recipient_name,
+                          naira_amount: transfer.naira_amount).tranfer_completed_email.deliver_now
+    when 'Rejected'
       # send Rejected email
-    else
-      return
     end
   end
-
 end

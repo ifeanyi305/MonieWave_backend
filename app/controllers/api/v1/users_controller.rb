@@ -15,7 +15,7 @@ class Api::V1::UsersController < ApplicationController
     @user = User.new(user_params)
     @user.role = 'customer'
     @user.status = 'Active'
-    @user.last_login = DateTime.now
+    @user.last_login = Time.now.utc
 
     if @user.save
       render json: UserSerializer.new(@user).serializable_hash.to_json, status: :created
@@ -30,7 +30,7 @@ class Api::V1::UsersController < ApplicationController
   def create_super_user
     @user = User.new(user_params)
     @user.status = 'Active'
-    @user.last_login = DateTime.now
+    @user.last_login = Time.now.utc
 
     if @user.save
       render json: UserSerializer.new(@user).serializable_hash.to_json, status: :created
@@ -47,7 +47,7 @@ class Api::V1::UsersController < ApplicationController
       :id, :email, :first_name, :last_name, :last_login,
       :status, :verified, :role, :country
     ).find(params[:id])
-    
+
     if @user
       @transfers = @user.transfers
       @beneficiaries = @user.beneficiaries
@@ -62,9 +62,9 @@ class Api::V1::UsersController < ApplicationController
     @user = User.find(params[:id])
 
     if @user.destroy
-      render json: {message: "User deleted from database"}, status: :ok
+      render json: { message: 'User deleted from database' }, status: :ok
     else
-      render json: {error: "User not deleted"}, status: :unprocessable_entity
+      render json: { error: 'User not deleted' }, status: :unprocessable_entity
     end
   end
 
@@ -104,12 +104,12 @@ class Api::V1::UsersController < ApplicationController
   def update_user_status
     @user = User.find_by(id: params[:user][:id])
 
-    return render json: { error: "User not found" }, status: :not_found if @user.nil?
+    return render json: { error: 'User not found' }, status: :not_found if @user.nil?
 
     @user.status = params[:user][:status]
 
     if @user.save
-      render json: {message: "User status updated to #{params[:user][:status]}"}, status: :ok
+      render json: { message: "User status updated to #{params[:user][:status]}" }, status: :ok
     else
       render json: { error: @user.errors.full_messages }, status: :unprocessable_entity
     end
@@ -119,12 +119,12 @@ class Api::V1::UsersController < ApplicationController
   def update_user_role
     @user = User.find_by(id: params[:user][:id])
 
-    return render json: { error: "User not found" }, status: :not_found if @user.nil?
+    return render json: { error: 'User not found' }, status: :not_found if @user.nil?
 
     @user.role = params[:user][:role]
 
     if @user.save
-      render json: {message: "User role updated to #{params[:user][:role]}"}, status: :ok
+      render json: { message: "User role updated to #{params[:user][:role]}" }, status: :ok
     else
       render json: { error: @user.errors.full_messages }, status: :unprocessable_entity
     end
