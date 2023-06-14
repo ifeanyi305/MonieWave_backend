@@ -28,7 +28,7 @@ Rails.application.routes.draw do
         end
       end
       #Users Resources
-      resources :users, only: [:create, :index, :show] do
+      resources :users, only: [:create, :index, :show, :destroy] do
         collection do
           put 'update_user_status', to: 'users#update_user_status'
           put 'update_user_role', to: 'users#update_user_role'

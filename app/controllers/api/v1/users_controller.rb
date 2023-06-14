@@ -43,6 +43,16 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  def destroy
+    @user = User.find(params[:id])
+
+    if @user.destroy
+      render json: {message: "User deleted from database"}, status: :ok
+    else
+      render json: {error: "User not deleted"}, status: :unprocessable_entity
+    end
+  end
+
   # Endpoint to get password reset link
   def forgot_password
     return render json: { error: 'Email not present' }, status: :not_found if params[:email].blank?
