@@ -67,12 +67,12 @@ end
 @transfer2 = Transfer.new(amount: "500", currency: "Euro",
                     exchange_rate: 820, naira_amount: "₦50,480.00", payment_method: "Bank transfer",
                     recipient_account: "7067255308", recipient_bank: "KUDA", fee: 3, recipient_name: "Val Blaze",
-                    recipient_phone: "8055813654", reference_number: "MnTH3J", user_id: 2, status: "Processing")
+                    recipient_phone: "8055813654", reference_number: "MnTH3J", user_id: 2, status: "Processing", processing_time: Time.now.utc)
 
 @transfer3 = Transfer.new(amount: "1500", currency: "Pounds",
                     exchange_rate: 970, naira_amount: "₦250,480.00", payment_method: "Bank transfer",
                     recipient_account: "7067255308", recipient_bank: "First Bank", fee: 3.5, recipient_name: "Apostle Comrade",
-                    recipient_phone: "9044766184", reference_number: "MnTH3J", user_id: 1, status: "Processing")
+                    recipient_phone: "9044766184", reference_number: "MnTH3J", user_id: 1, status: "Processing", processing_time: Time.now.utc)
 
 if  @transfer1.save! && @transfer2.save! && @transfer3.save!
   puts "User transfers successfully created"
