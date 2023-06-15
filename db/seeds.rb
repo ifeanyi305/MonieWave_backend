@@ -58,3 +58,29 @@ end
 if @euro_rate.save! && @pounds_rate.save!
   puts 'Euro and pounds exchange rate created successfully'
 end
+
+@transfer1 = Transfer.new(amount: "14", currency: "Pounds",
+                    exchange_rate: 820, naira_amount: "₦11,480.00", payment_method: "Bank transfer",
+                    recipient_account: "7067255308", recipient_bank: "PALMPAY", fee: 2, recipient_name: "IFY oti",
+                    recipient_phone: "7067255308", reference_number: "MnTH3J", user_id: 1, status: "Pending")
+
+@transfer2 = Transfer.new(amount: "500", currency: "Euro",
+                    exchange_rate: 820, naira_amount: "₦50,480.00", payment_method: "Bank transfer",
+                    recipient_account: "7067255308", recipient_bank: "KUDA", fee: 3, recipient_name: "Val Blaze",
+                    recipient_phone: "8055813654", reference_number: "MnTH3J", user_id: 2, status: "Processing")
+
+@transfer3 = Transfer.new(amount: "1500", currency: "Pounds",
+                    exchange_rate: 970, naira_amount: "₦250,480.00", payment_method: "Bank transfer",
+                    recipient_account: "7067255308", recipient_bank: "First Bank", fee: 3.5, recipient_name: "Apostle Comrade",
+                    recipient_phone: "9044766184", reference_number: "MnTH3J", user_id: 1, status: "Processing")
+
+if  @transfer1.save! && @transfer2.save! && @transfer3.save!
+  puts "User transfers successfully created"
+end
+
+
+@beneficiary = Beneficiary.new(bank_name: "Kuda", account_number: "7067255308", account_name: "OTI Ifeanyi", phone_number: "07056926583", user_id: 1)
+
+if @beneficiary.save!
+  puts "New beneficiary created"
+end

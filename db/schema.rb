@@ -56,13 +56,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_24_085635) do
     t.string "amount"
     t.string "naira_amount"
     t.integer "exchange_rate"
+    t.string "fee"
     t.string "recipient_name"
-    t.string "recipient_account"
+    t.text "recipient_account"
     t.string "recipient_bank"
     t.string "recipient_phone"
     t.string "reference_number"
     t.string "payment_method"
     t.string "status"
+    t.datetime "processing_time", precision: nil
+    t.datetime "completed_time", precision: nil
+    t.datetime "rejected_time", precision: nil
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

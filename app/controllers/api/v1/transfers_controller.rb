@@ -63,7 +63,7 @@ class Api::V1::TransfersController < ApplicationController
 
     @transfer.status = params[:data][:status]
     status_time = "#{params[:data][:status]}_time"
-    @transfer[status_time.capitalize] = Time.now.utc
+    @transfer[status_time.downcase] = Time.now.utc
     if @transfer.save!
       render json: { message: "Transfer status updated to #{params[:data][:status]} successfully" }, status: :ok
       # sender user email informing them of the update
