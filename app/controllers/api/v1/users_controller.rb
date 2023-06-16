@@ -59,7 +59,9 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def destroy
-    @user = User.find(params[:id])
+    @user = User.find_by(id: params[:id])
+
+    return render json: { message: 'User does not exist' }, status: :not_found if @user.nil?
 
     if @user.destroy
       render json: { message: 'User deleted from database' }, status: :ok
