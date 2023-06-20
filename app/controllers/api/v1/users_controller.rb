@@ -5,7 +5,7 @@ class Api::V1::UsersController < ApplicationController
   # before_action :set_user, only: %i[show destroy]
 
   def index
-    @users = User.select(:id, :email, :first_name, :last_name, :last_login, :status).as_json
+    @users = User.select(:id, :email, :first_name, :last_name, :last_login, :status, :role).as_json
 
     render json: { users: @users }, status: :ok
   end
