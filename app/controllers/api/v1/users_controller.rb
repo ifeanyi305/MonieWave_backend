@@ -101,15 +101,15 @@ class Api::V1::UsersController < ApplicationController
       render json: { error: 'Link not valid or expired. Try generating a new link.' }, status: :not_found
     end
   end
-  
+
   # Endpoint to update user's status
   def update_user_status
     @user = User.find_by(id: params[:user][:id])
-    
+
     return render json: { error: 'User not found' }, status: :not_found if @user.nil?
-    
+
     @user.status = params[:user][:status]
-    
+
     if @user.save
       render json: { message: "User status updated to #{params[:user][:status]}" }, status: :ok
       UserMailer.with(user: @user, status: @user.status).user_account_status_change.deliver_now

@@ -85,10 +85,12 @@ class Api::V1::TransfersController < ApplicationController
     case transfer.status
     when 'Processing'
       # send proccessing email
-      # TransferMailer.with(user: transfer.user,recipient: transfer.recipient_name).tranfer_proccessing_email.deliver_now
+      # TransferMailer.with(user: transfer.user,
+      # recipient: transfer.recipient_name).tranfer_proccessing_email.deliver_now
     when 'Completed'
       # send completed email
-      TransferMailer.with(user: transfer.user, amount: transfer.amount, currency: transfer.currency, recipient: transfer.recipient_name,
+      TransferMailer.with(user: transfer.user, amount: transfer.amount, currency: transfer.currency,
+                          recipient: transfer.recipient_name,
                           naira_amount: transfer.naira_amount).tranfer_completed_email.deliver_now
     when 'Rejected'
       # send Rejected email

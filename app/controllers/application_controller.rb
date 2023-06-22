@@ -13,8 +13,8 @@ class ApplicationController < ActionController::API
       @current_user = User.find(@decoded[:user_id])
 
       if @current_user.status == 'Disabled'
-        return render json: { error: 'Your account is currently disabled' },
-                      status: :unauthorized
+        render json: { error: 'Your account is currently disabled' },
+               status: :unauthorized
       end
     rescue ActiveRecord::RecordNotFound, JWT::DecodeError => e
       render json: { errors: e.message }, status: :unauthorized
