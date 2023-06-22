@@ -9,7 +9,7 @@ class TransferMailer < ApplicationMailer
     @currency = params[:currency]
     mail(
       to: email_address_with_name(@user.email, @user.first_name),
-      subject: 'Transfer successful'
+      subject: 'Transfer Initiated!'
     )
   end
 
@@ -26,9 +26,11 @@ class TransferMailer < ApplicationMailer
     @user = params[:user]
     @recipient = params[:recipient]
     @naira_amount = params[:naira_amount]
+    @amount = params[:amount]
+    @currency = params[:currency]
     mail(
       to: email_address_with_name(@user.email, @user.first_name),
-      subject: 'Payment Completed'
+      subject: 'Transfer Successful: Funds Delivered!'
     )
   end
 end
