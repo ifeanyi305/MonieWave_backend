@@ -37,4 +37,13 @@ class UserMailer < ApplicationMailer
       subject: 'Account verification OTP'
     )
   end
+
+  def user_account_status_change
+    @email = params[:email]
+    @status = params[:status]
+    mail(
+      to: @email,
+      subject: 'Your account status was changed'
+    )
+  end
 end

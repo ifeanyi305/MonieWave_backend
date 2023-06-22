@@ -5,13 +5,17 @@ class CreateTransfers < ActiveRecord::Migration[7.0]
       t.string :amount
       t.string :naira_amount
       t.integer :exchange_rate
+      t.string :fee
       t.string :recipient_name
-      t.integer :recipient_account
+      t.text :recipient_account
       t.string :recipient_bank
       t.string :recipient_phone
       t.string :reference_number
       t.string :payment_method
       t.string :status
+      t.timestamp :processing_time, null: true
+      t.timestamp :completed_time, null: true
+      t.timestamp :rejected_time, null: true
 
       t.references :user, null: false, foreign_key: true
 

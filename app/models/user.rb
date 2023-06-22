@@ -6,12 +6,15 @@ class User < ApplicationRecord
   has_many :transfers
 
   ROLES = %w[admin customer support].freeze
+  STATUS = %w[Active Disabled].freeze
 
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :country, presence: true
   validates :verified, inclusion: { in: [true, false] }
   validates :role, presence: true, inclusion: { in: ROLES }
+  validates :status, presence: true, inclusion: { in: STATUS }
+  validates :last_login, presence: true
   validates :email, uniqueness: true
   validates :password, presence: true, length: { minimum: 8 }, allow_nil: true
 
