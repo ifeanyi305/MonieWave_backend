@@ -13,7 +13,7 @@ class Api::V1::UsersController < ApplicationController
   # Endpoint to create new user account
   def create
     @user = User.new(user_params)
-    @user.role = 'customer'
+    # @user.role = 'customer'
     @user.status = 'Active'
     @user.last_login = Time.now.utc
 

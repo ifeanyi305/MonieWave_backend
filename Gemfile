@@ -70,3 +70,7 @@ gem 'mail'
 
 # Mail trap gem
 gem 'mailtrap'
+
+gem "dockerfile-rails", ">= 1.5", :group => :development
+
+gem "redis", "~> 5.0"
