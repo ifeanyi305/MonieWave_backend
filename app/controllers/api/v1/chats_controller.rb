@@ -3,17 +3,31 @@ class Api::V1::ChatsController < ApplicationController
 
   def index
     @chats = Chat.where(admin_id: @current_user.id).includes(:user, :messages)
-    chat_data = @chats.map do |chat|
-      {
-        
-        user_details: { chat_id: chat.id, time: chat.updated_at, user_id: chat.user_id, email: chat.user.email, name: chat.user.first_name }
-      }
+
+    if @chats.present?
+      chat_data = @chats.map do |chat|
+        {
+          
+          user_details: { chat_id: chat.id, time: chat.updated_at, user_id: chat.user_id, email: chat.user.email, name: chat.user.first_name }
+        }
+      end
+      render json: { chats: chat_data }, status: :ok
+    else
+      render json: { data: 'No chat found' }, status: :not_found
     end
-    render json: { chats: chat_data }, status: :ok
   end
   
+  def show
+    if @current_user.admin?
+      @chat = Chat.find(params[:id])
+    else
+      @chat = @current_user.chats.first
+    end
   
+    @messages = @chat.messages.includes(:user, :admin)
   
+    render json: { messages: @messages }, status: :ok
+  end
   
 
   def create
