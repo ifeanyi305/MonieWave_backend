@@ -28,9 +28,9 @@ Rails.application.routes.draw do
         end
       end
       # Chat Resources
-      resources :chats, only: [:create, :index, :show] do
+      resources :chats, only: [:create, :index, :show, :destroy] do
         collection do
-          # get 'show_all_transfers', to: 'transfers#show_all_transfers'
+          # get 'show_all_chats', to: 'chats#show_all_transfers'
         end
       end
       #Users Resources

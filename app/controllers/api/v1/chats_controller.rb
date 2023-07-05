@@ -1,5 +1,5 @@
 class Api::V1::ChatsController < ApplicationController
-  before_action :check_admin, only: %i[index]
+  before_action :check_admin, only: %i[index destroy]
 
   def index
     @chats = Chat.where(admin_id: @current_user.id).includes(:user, :messages)
@@ -19,14 +19,18 @@ class Api::V1::ChatsController < ApplicationController
   
   def show
     if @current_user.admin?
-      @chat = Chat.find(params[:id])
+      @chat = Chat.find_by(id: params[:id])
     else
-      @chat = @current_user.chats.first
+      @chat = @current_user.chats.find_by(id: params[:id])
     end
-  
-    @messages = @chat.messages.includes(:user, :admin)
-  
-    render json: { messages: @messages }, status: :ok
+    
+    if @chat.present?
+      @messages = @chat.messages.includes(:user, :admin)
+    
+      render json: { messages: @messages }, status: :ok
+    else
+      render json: { data: 'No chat found'  }, status: :not_found
+    end
   end
   
 
@@ -49,9 +53,24 @@ class Api::V1::ChatsController < ApplicationController
     if @message.save
       render json: { messages: @chat.messages, chat: @chat }, status: :ok
     else
-      render json: { error: @user.errors.full_messages }, status: :unprocessable_entity
+      render json: { error: @chat.errors.full_messages }, status: :unprocessable_entity
     end
   end
+
+  def destroy
+    @chat = Chat.find_by(id: params[:id])
+    
+    if @chat.destroy
+      @chat.messages.destroy_all
+      render json: { message: 'Chat and messages deleted from database' }, status: :ok
+    else
+      render json: { error: 'Chat not deleted' }, status: :unprocessable_entity
+    end
+  end
+  
+
+
+  private
 
   def chat_params
     params.require(:data).permit(:content, :sender)
