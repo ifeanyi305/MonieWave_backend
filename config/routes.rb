@@ -27,6 +27,12 @@ Rails.application.routes.draw do
           put 'update_transfer_status', to: 'transfers#update_transfer_status'
         end
       end
+      # Chat Resources
+      resources :chats, only: [:create, :index, :show] do
+        collection do
+          # get 'show_all_transfers', to: 'transfers#show_all_transfers'
+        end
+      end
       #Users Resources
       resources :users, only: [:create, :index, :show, :destroy] do
         collection do
