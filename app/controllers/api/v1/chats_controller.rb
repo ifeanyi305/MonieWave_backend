@@ -21,7 +21,8 @@ class Api::V1::ChatsController < ApplicationController
     if @current_user.admin?
       @chat = Chat.find_by(id: params[:id])
     else
-      @chat = @current_user.chats.find_by(id: params[:id])
+      # @chat = @current_user.chats.find_by(id: params[:id])
+      @chat = @current_user.chats.first
     end
     
     if @chat.present?
