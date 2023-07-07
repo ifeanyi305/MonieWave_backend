@@ -52,7 +52,7 @@ class Api::V1::ChatsController < ApplicationController
     end
 
     if @message.save
-      render json: { messages: @chat.messages, chat: @chat }, status: :ok
+      render json: { messages: @chat.messages }, status: :ok
     else
       render json: { error: @chat.errors.full_messages }, status: :unprocessable_entity
     end
