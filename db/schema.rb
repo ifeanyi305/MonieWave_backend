@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_24_085635) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_04_172051) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -23,6 +23,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_24_085635) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_beneficiaries_on_user_id"
+  end
+
+  create_table "chats", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "admin_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["admin_id"], name: "index_chats_on_admin_id"
+    t.index ["user_id"], name: "index_chats_on_user_id"
   end
 
   create_table "email_otps", force: :cascade do |t|
@@ -49,6 +58,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_24_085635) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["start_price", "end_price"], name: "index_fee_ranges_on_start_price_and_end_price", unique: true
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.bigint "chat_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "admin_id", null: false
+    t.text "content"
+    t.string "sender"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["admin_id"], name: "index_messages_on_admin_id"
+    t.index ["chat_id"], name: "index_messages_on_chat_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
   create_table "transfers", force: :cascade do |t|
@@ -90,5 +112,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_24_085635) do
   end
 
   add_foreign_key "beneficiaries", "users"
+  add_foreign_key "chats", "users"
+  add_foreign_key "chats", "users", column: "admin_id"
+  add_foreign_key "messages", "chats"
+  add_foreign_key "messages", "users"
+  add_foreign_key "messages", "users", column: "admin_id"
   add_foreign_key "transfers", "users"
 end
