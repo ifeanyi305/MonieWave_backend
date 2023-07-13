@@ -39,9 +39,9 @@ class User < ApplicationRecord
   def admin?
     role == 'admin'
   end
-  
+
   scope :admins, -> { where(role: 'admin', status: 'Active') }
-  
+
   def self.random_admin
     admins.order('RANDOM()').first
   end

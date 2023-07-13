@@ -2,7 +2,6 @@ class Api::V1::UsersController < ApplicationController
   skip_before_action :authenticate_request, only: %i[create forgot_password reset_password]
   before_action :check_admin, only: %i[index show create_super_user update_user_status update_user_role]
   before_action :verify_reset_password_params, only: %i[reset_password]
-  # before_action :set_user, only: %i[show destroy]
 
   def index
     @users = User.select(:id, :email, :first_name, :last_name, :last_login, :status, :role).as_json
