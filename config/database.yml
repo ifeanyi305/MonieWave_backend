@@ -87,6 +87,4 @@ test:
 #
 production:
   <<: *default
-  database: Ratehive_backend_production
-  username: Ratehive_backend
-  password: <%= ENV["RATEHIVE_BACKEND_DATABASE_PASSWORD"] %>
+  url: <%= ENV['DATABASE_URL'] %>

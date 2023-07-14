@@ -31,15 +31,17 @@ end
 
 # Create Fees
 
-@fee_range1 = FeeRange.new(start_price: 1, end_price: 300, fee: 1)
-@fee_range2 = FeeRange.new(start_price: 301, end_price: 500, fee: 2)
-@fee_range3 = FeeRange.new(start_price: 501, end_price: 1000, fee: 3.5)
-@fee_range4 = FeeRange.new(start_price: 1001, end_price: 10000000, fee: 4)
+@fee_range1 = FeeRange.new(start_price: 0, end_price: 100, fee: 1)
+@fee_range2 = FeeRange.new(start_price: 101, end_price: 300, fee: 2)
+@fee_range3 = FeeRange.new(start_price: 301, end_price: 500, fee: 3)
+@fee_range4 = FeeRange.new(start_price: 501, end_price: 1000, fee: 3.5)
+@fee_range5 = FeeRange.new(start_price: 1001, end_price: 10000000, fee: 4)
 
 if @fee_range1.save!
   @fee_range2.save!
   @fee_range3.save!
   @fee_range4.save!
+  @fee_range5.save!
   puts "Fee Created Successfully"
 end
 
