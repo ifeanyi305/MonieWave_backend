@@ -1,6 +1,6 @@
 databases:
   - name: ratehive
-    databaseName: ratehive
+    databaseName: ratehive_d0oe
     user: ratehive
 
 services:
